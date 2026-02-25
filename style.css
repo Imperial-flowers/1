@@ -567,3 +567,50 @@ footer {
 .copy-hint-text span {
     color: var(--text-muted);
 }
+
+/* ── Bigger hero petals ── */
+.petal:nth-child(1) { top: 8%;  left: 4%;  font-size: 70px;  animation-delay: 0s;   animation-duration: 11s; }
+.petal:nth-child(2) { top: 15%; right: 6%; font-size: 90px;  animation-delay: 1.5s; animation-duration: 14s; }
+.petal:nth-child(3) { bottom: 20%; left: 10%; font-size: 80px; animation-delay: 3s; animation-duration: 12s; }
+.petal:nth-child(4) { bottom: 12%; right: 5%; font-size: 95px; animation-delay: 0.8s; animation-duration: 15s; }
+.petal:nth-child(5) { top: 45%; left: 2%;  font-size: 65px;  animation-delay: 2.5s; animation-duration: 13s; }
+.petal:nth-child(6) { top: 38%; right: 3%; font-size: 75px;  animation-delay: 4s;   animation-duration: 10s; }
+.petal:nth-child(7) { top: 28%; left: 18%; font-size: 55px;  animation-delay: 1s;   animation-duration: 16s; }
+.petal:nth-child(8) { bottom: 35%; right: 15%; font-size: 85px; animation-delay: 3.5s; animation-duration: 12s; }
+.petal:nth-child(9) { top: 60%; right: 20%; font-size: 60px; animation-delay: 2s;   animation-duration: 14s; }
+
+/* ── Site-wide floating flowers (fixed, behind everything) ── */
+.site-flowers {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.sf {
+    position: absolute;
+    opacity: 0.07;
+    animation: floatPetal 18s ease-in-out infinite;
+    user-select: none;
+}
+
+/* Distribute across full page height using vh + top offsets */
+.sf1  { font-size: 100px; top:  5vh;  left:  2%;  animation-delay: 0s;    animation-duration: 17s; }
+.sf2  { font-size: 80px;  top: 12vh;  right: 4%;  animation-delay: 2s;    animation-duration: 20s; }
+.sf3  { font-size: 120px; top: 25vh;  left:  7%;  animation-delay: 4s;    animation-duration: 15s; }
+.sf4  { font-size: 90px;  top: 35vh;  right: 8%;  animation-delay: 1s;    animation-duration: 19s; }
+.sf5  { font-size: 110px; top: 50vh;  left:  1%;  animation-delay: 6s;    animation-duration: 22s; }
+.sf6  { font-size: 85px;  top: 60vh;  right: 3%;  animation-delay: 3s;    animation-duration: 16s; }
+.sf7  { font-size: 95px;  top: 72vh;  left:  5%;  animation-delay: 5s;    animation-duration: 18s; }
+.sf8  { font-size: 75px;  top: 80vh;  right: 6%;  animation-delay: 7s;    animation-duration: 21s; }
+.sf9  { font-size: 105px; top: 90vh;  left:  9%;  animation-delay: 2.5s;  animation-duration: 14s; }
+.sf10 { font-size: 88px;  top: 110vh; right: 2%;  animation-delay: 4.5s;  animation-duration: 17s; }
+.sf11 { font-size: 115px; top: 130vh; left:  3%;  animation-delay: 1.5s;  animation-duration: 20s; }
+.sf12 { font-size: 78px;  top: 150vh; right: 7%;  animation-delay: 8s;    animation-duration: 23s; }
+
+/* Make sure content sits above the flowers */
+.header, .hero, .catalog, .contacts, footer, .modal {
+    position: relative;
+    z-index: 1;
+}
