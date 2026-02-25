@@ -569,7 +569,60 @@ footer {
 }
 
 
-/* ── Hero petals — closer to center, large ── */
+
+/* ════════════════════════════════
+   CSS FLOWERS — pure CSS, no emoji
+   ════════════════════════════════ */
+
+.css-flower {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    pointer-events: none;
+    animation: floatPetal 11s ease-in-out infinite;
+}
+
+/* Petal base */
+.cf-petal {
+    position: absolute;
+    width: 26px;
+    height: 40px;
+    background: rgba(230, 180, 180, 0.55);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    left: 50%;
+    top: 50%;
+    transform-origin: 50% 100%;
+    margin-left: -13px;
+    margin-top: -40px;
+}
+
+/* Rotate 6 petals evenly */
+.cf-petal:nth-child(2) { transform: rotate(0deg);   }
+.cf-petal:nth-child(3) { transform: rotate(60deg);  }
+.cf-petal:nth-child(4) { transform: rotate(120deg); }
+.cf-petal:nth-child(5) { transform: rotate(180deg); }
+.cf-petal:nth-child(6) { transform: rotate(240deg); }
+.cf-petal:nth-child(7) { transform: rotate(300deg); }
+
+/* Center circle */
+.cf-center {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 220, 150, 0.85);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+/* Color variants */
+.css-flower .cf-petal          { background: rgba(235, 185, 195, 0.55); }
+.css-flower.pink .cf-petal     { background: rgba(255, 160, 190, 0.50); }
+.css-flower.rose .cf-petal     { background: rgba(210, 120, 140, 0.45); }
+
+/* ── Hero flower positions ── */
 .hero-decorations {
     position: absolute;
     inset: 0;
@@ -577,73 +630,58 @@ footer {
     overflow: hidden;
 }
 
-.petal {
-    position: absolute;
-    opacity: 0.55;
-    animation: floatPetal 10s ease-in-out infinite;
-    font-style: normal;
-    line-height: 1;
-    /* Force emoji to render large and crisp */
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+.p1 { width: 90px;  height: 90px;  top: 14%; left: 7%;   animation-delay: 0s;   animation-duration: 12s; }
+.p2 { width: 75px;  height: 75px;  top: 60%; left: 10%;  animation-delay: 2s;   animation-duration: 14s; }
+.p3 { width: 100px; height: 100px; top: 38%; left: 4%;   animation-delay: 4s;   animation-duration: 11s; }
+.p4 { width: 85px;  height: 85px;  top: 12%; right: 7%;  animation-delay: 1s;   animation-duration: 13s; }
+.p5 { width: 70px;  height: 70px;  top: 55%; right: 9%;  animation-delay: 3s;   animation-duration: 15s; }
+.p6 { width: 95px;  height: 95px;  top: 35%; right: 4%;  animation-delay: 5s;   animation-duration: 10s; }
+
+/* ── Site-wide fixed background flowers ── */
+.bg-flowers {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
 }
 
-/* Left side — close to hero text */
-.p1 { font-size: 80px;  top: 20%; left: 8%;   animation-delay: 0s;   animation-duration: 11s; }
-.p3 { font-size: 70px;  top: 55%; left: 12%;  animation-delay: 2s;   animation-duration: 13s; }
-.p5 { font-size: 90px;  top: 75%; left: 6%;   animation-delay: 4s;   animation-duration: 10s; }
+.bg-flowers .css-flower {
+    opacity: 0.35;
+    animation-duration: 16s;
+}
 
-/* Right side — close to hero text */
-.p2 { font-size: 85px;  top: 15%; right: 7%;  animation-delay: 1s;   animation-duration: 12s; }
-.p4 { font-size: 75px;  top: 50%; right: 10%; animation-delay: 3s;   animation-duration: 14s; }
-.p6 { font-size: 95px;  top: 72%; right: 5%;  animation-delay: 5s;   animation-duration: 11s; }
+.bg-flowers .f1  { width: 80px;  height: 80px;  top:  8vh;  left:  2%;  animation-delay: 0s;   }
+.bg-flowers .f2  { width: 65px;  height: 65px;  top: 18vh;  right: 3%;  animation-delay: 3s;   }
+.bg-flowers .f3  { width: 90px;  height: 90px;  top: 35vh;  left:  1%;  animation-delay: 6s;   animation-duration: 18s; }
+.bg-flowers .f4  { width: 70px;  height: 70px;  top: 50vh;  right: 2%;  animation-delay: 1.5s; }
+.bg-flowers .f5  { width: 85px;  height: 85px;  top: 65vh;  left:  3%;  animation-delay: 4s;   animation-duration: 14s; }
+.bg-flowers .f6  { width: 75px;  height: 75px;  top: 80vh;  right: 4%;  animation-delay: 7s;   }
+.bg-flowers .f7  { width: 60px;  height: 60px;  top: 95vh;  left:  2%;  animation-delay: 2s;   animation-duration: 20s; }
+.bg-flowers .f8  { width: 88px;  height: 88px;  top: 115vh; right: 1%;  animation-delay: 5s;   }
+.bg-flowers .f9  { width: 72px;  height: 72px;  top: 135vh; left:  4%;  animation-delay: 8s;   animation-duration: 17s; }
+.bg-flowers .f10 { width: 80px;  height: 80px;  top: 155vh; right: 3%;  animation-delay: 2.5s; }
 
 @keyframes floatPetal {
     0%,100% { transform: translateY(0px)   rotate(0deg);  }
-    33%      { transform: translateY(-18px) rotate(6deg);  }
-    66%      { transform: translateY(10px)  rotate(-4deg); }
+    33%      { transform: translateY(-18px) rotate(8deg);  }
+    66%      { transform: translateY(10px)  rotate(-5deg); }
 }
 
-/* Mobile — tighten inward so visible on small screens */
+/* Mobile */
 @media (max-width: 768px) {
-    .p1 { font-size: 52px; left: 2%;   top: 12%; }
-    .p3 { font-size: 46px; left: 3%;   top: 60%; }
-    .p5 { font-size: 58px; left: 1%;   top: 80%; }
-    .p2 { font-size: 54px; right: 2%;  top: 10%; }
-    .p4 { font-size: 48px; right: 3%;  top: 55%; }
-    .p6 { font-size: 60px; right: 1%;  top: 75%; }
+    .p1,.p2,.p3 { left: 1%; }
+    .p4,.p5,.p6 { right: 1%; }
+    .p1 { width: 60px; height: 60px; }
+    .p2 { width: 50px; height: 50px; }
+    .p3 { width: 65px; height: 65px; }
+    .p4 { width: 55px; height: 55px; }
+    .p5 { width: 48px; height: 48px; }
+    .p6 { width: 62px; height: 62px; }
 }
 
-/* Keep content above */
+/* Ensure content sits above fixed flowers */
 .header, .hero, .catalog, .contacts, footer, .modal {
     position: relative;
     z-index: 1;
-}
-
-/* ── Section decorative flowers ── */
-.section-flowers {
-    position: relative;
-    height: 0;
-    pointer-events: none;
-}
-
-.sf-left,
-.sf-right {
-    position: absolute;
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-    opacity: 0.5;
-    animation: floatPetal 12s ease-in-out infinite;
-    line-height: 1;
-}
-
-/* Catalog section flowers */
-.sf-l1 { font-size: 80px; left: 2%;   top: -20px; animation-delay: 0s;   animation-duration: 13s; }
-.sf-l2 { font-size: 65px; left: 8%;   top: 60px;  animation-delay: 2s;   animation-duration: 11s; }
-.sf-r1 { font-size: 75px; right: 3%;  top: -10px; animation-delay: 1s;   animation-duration: 14s; }
-.sf-r2 { font-size: 70px; right: 9%;  top: 70px;  animation-delay: 3s;   animation-duration: 12s; }
-
-@media (max-width: 768px) {
-    .sf-l1 { font-size: 50px; left: 1%; }
-    .sf-l2 { font-size: 42px; left: 3%; }
-    .sf-r1 { font-size: 48px; right: 1%; }
-    .sf-r2 { font-size: 44px; right: 3%; }
 }
