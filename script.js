@@ -519,6 +519,14 @@ function filterCategory(btn, cat) {
 }
 
 function openBuildTab() {
+    const sidebar = document.getElementById('cartSidebar');
+    const overlay = document.getElementById('cartOverlay');
+    // Open cart if not already open
+    if (!sidebar.classList.contains('open')) {
+        sidebar.classList.add('open');
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    // Always switch to build tab
     switchTab('build');
-    toggleCart();
 }
