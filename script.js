@@ -453,3 +453,61 @@ function switchTab(tab) {
 document.addEventListener('DOMContentLoaded', () => {
     renderColors('Троянди');
 });
+
+/* ════════════════════════════════
+   CATEGORIES FILTER
+   ════════════════════════════════ */
+
+let activeCategory = 'all';
+
+function toggleCategories() {
+    const sidebar = document.getElementById('catSidebar');
+    const overlay = document.getElementById('catOverlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+    document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+}
+
+function filterCategory(btn, cat) {
+    activeCategory = cat;
+
+    // Update active buttons in both dropdown and sidebar
+    document.querySelectorAll('.cat-item, .dropdown-item').forEach(b => b.classList.remove('active'));
+    // Activate all matching buttons across both menus
+    document.querySelectorAll(`[data-cat="${cat}"]`).forEach(b => b.classList.add('active'));
+
+    // Filter cards
+    const cards = document.querySelectorAll('.flower-card');
+    cards.forEach(card => {
+        const cardCat = card.dataset.category;
+        if (cat === 'all' || cardCat === cat) {
+            card.classList.remove('hidden');
+        } else {
+            card.classList.add('hidden');
+        }
+    });
+
+    // Show/hide filter badge
+    const subtitle = document.querySelector('.section-subtitle');
+    const existingBadge = document.getElementById('filterBadge');
+    if (existingBadge) existingBadge.remove();
+
+    if (cat !== 'all') {
+        const icons = { 'Троянди':'🌹', 'Хризантеми':'🌼', 'Тюльпани':'🌷', 'Мікс':'🌺' };
+        const badge = document.createElement('div');
+        badge.id = 'filterBadge';
+        badge.className = 'filter-badge';
+        badge.innerHTML = `${icons[cat] || '💐'} ${cat} <span onclick="filterCategory(document.querySelector('.cat-item[data-cat=\'all\']'), 'all')" style="opacity:0.6; font-size:14px; margin-left:2px;">×</span>`;
+        badge.onclick = () => {
+            filterCategory(document.querySelector(".cat-item[data-cat='all']"), 'all');
+        };
+        subtitle.insertAdjacentElement('afterend', badge);
+    }
+
+    // Close sidebar if open
+    const catSidebar = document.getElementById('catSidebar');
+    if (catSidebar && catSidebar.classList.contains('open')) toggleCategories();
+
+    // Scroll to catalog
+    document.getElementById('catalog').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}

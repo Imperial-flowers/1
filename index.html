@@ -32,7 +32,31 @@
         <div class="container header-content">
             <div class="logo">IMPERIAL</div>
             <nav class="nav-links">
-                <a href="#catalog"><span class="icon">💐</span> Каталог</a>
+                <div class="nav-dropdown">
+                    <a href="#catalog" class="nav-dropdown-trigger"><span class="icon">💐</span> Каталог <span class="nav-arrow">▾</span></a>
+                    <div class="nav-dropdown-menu">
+                        <div class="dropdown-header">Категорії</div>
+                        <button class="dropdown-item active" data-cat="all" onclick="filterCategory(this, 'all')">
+                            <span class="di-icon">💐</span><span class="di-label">Всі букети</span><span class="di-count">9</span>
+                        </button>
+                        <button class="dropdown-item" data-cat="Троянди" onclick="filterCategory(this, 'Троянди')">
+                            <span class="di-icon">🌹</span><span class="di-label">Троянди</span><span class="di-count">4</span>
+                        </button>
+                        <button class="dropdown-item" data-cat="Хризантеми" onclick="filterCategory(this, 'Хризантеми')">
+                            <span class="di-icon">🌼</span><span class="di-label">Хризантеми</span><span class="di-count">2</span>
+                        </button>
+                        <button class="dropdown-item" data-cat="Тюльпани" onclick="filterCategory(this, 'Тюльпани')">
+                            <span class="di-icon">🌷</span><span class="di-label">Тюльпани</span><span class="di-count">1</span>
+                        </button>
+                        <button class="dropdown-item" data-cat="Мікс" onclick="filterCategory(this, 'Мікс')">
+                            <span class="di-icon">🌺</span><span class="di-label">Мікс</span><span class="di-count">2</span>
+                        </button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-build" onclick="switchTab('build'); toggleCart();">
+                            🌸 Скласти свій букет
+                        </button>
+                    </div>
+                </div>
                 <a href="#contacts"><span class="icon">📞</span> Контакти</a>
                 <button class="cart-btn" onclick="toggleCart()">
                     <span class="cart-icon">🛒</span>
@@ -66,7 +90,7 @@
         <p class="section-subtitle">✦ ручна робота · свіжі квіти · доставка ✦</p>
         <div class="flowers-grid">
 
-            <div class="flower-card">
+            <div class="flower-card" data-category="Троянди">
                 <div class="flower-image"><img src="images/1.jpg" alt="Червона романтика"></div>
                 <div class="flower-info">
                     <h3>Червона романтика</h3>
@@ -78,7 +102,7 @@
                 </div>
             </div>
 
-            <div class="flower-card">
+            <div class="flower-card" data-category="Троянди">
                 <div class="flower-image"><img src="images/2.jpg" alt="Ніжність"></div>
                 <div class="flower-info">
                     <h3>Ніжність</h3>
@@ -90,7 +114,7 @@
                 </div>
             </div>
 
-            <div class="flower-card">
+            <div class="flower-card" data-category="Троянди">
                 <div class="flower-image"><img src="images/3.jpg" alt="Білосніжна розкіш"></div>
                 <div class="flower-info">
                     <h3>Білосніжна розкіш</h3>
@@ -102,7 +126,7 @@
                 </div>
             </div>
 
-            <div class="flower-card">
+            <div class="flower-card" data-category="Троянди">
                 <div class="flower-image"><img src="images/4.jpg" alt="Рожева мрія"></div>
                 <div class="flower-info">
                     <h3>Рожева мрія</h3>
@@ -114,7 +138,7 @@
                 </div>
             </div>
 
-            <div class="flower-card">
+            <div class="flower-card" data-category="Мікс">
                 <div class="flower-image"><img src="images/5.jpg" alt="Яскравий мікс"></div>
                 <div class="flower-info">
                     <h3>Яскравий мікс</h3>
@@ -126,7 +150,7 @@
                 </div>
             </div>
 
-            <div class="flower-card">
+            <div class="flower-card" data-category="Мікс">
                 <div class="flower-image"><img src="images/6.jpg" alt="Елегантна класика"></div>
                 <div class="flower-info">
                     <h3>Елегантна класика</h3>
@@ -138,7 +162,7 @@
                 </div>
             </div>
 
-            <div class="flower-card">
+            <div class="flower-card" data-category="Хризантеми">
                 <div class="flower-image"><img src="images/7.jpg" alt="Весняний настрій"></div>
                 <div class="flower-info">
                     <h3>Весняний настрій</h3>
@@ -150,7 +174,7 @@
                 </div>
             </div>
 
-            <div class="flower-card">
+            <div class="flower-card" data-category="Хризантеми">
                 <div class="flower-image"><img src="images/8.jpg" alt="Чарівність моменту"></div>
                 <div class="flower-info">
                     <h3>Чарівність моменту</h3>
@@ -162,7 +186,7 @@
                 </div>
             </div>
 
-            <div class="flower-card">
+            <div class="flower-card" data-category="Тюльпани">
                 <div class="flower-image"><img src="images/9.jpg" alt="Королівський шарм"></div>
                 <div class="flower-info">
                     <h3>Королівський шарм</h3>
@@ -253,6 +277,47 @@
     <footer>
         <p>&copy; 2026 Imperial. Усі права захищені.</p>
     </footer>
+
+    <!-- Категорії sidebar -->
+    <div class="cat-overlay" id="catOverlay" onclick="toggleCategories()"></div>
+    <div class="cat-sidebar" id="catSidebar">
+        <div class="cat-sidebar-header">
+            <span>Категорії</span>
+            <button class="cart-close" onclick="toggleCategories()">×</button>
+        </div>
+        <div class="cat-sidebar-body">
+            <button class="cat-item active" data-cat="all" onclick="filterCategory(this, 'all')">
+                <span class="cat-item-icon">💐</span>
+                <span class="cat-item-label">Всі букети</span>
+                <span class="cat-item-count" id="count-all">9</span>
+            </button>
+            <button class="cat-item" data-cat="Троянди" onclick="filterCategory(this, 'Троянди')">
+                <span class="cat-item-icon">🌹</span>
+                <span class="cat-item-label">Троянди</span>
+                <span class="cat-item-count" id="count-Троянди">4</span>
+            </button>
+            <button class="cat-item" data-cat="Хризантеми" onclick="filterCategory(this, 'Хризантеми')">
+                <span class="cat-item-icon">🌼</span>
+                <span class="cat-item-label">Хризантеми</span>
+                <span class="cat-item-count" id="count-Хризантеми">2</span>
+            </button>
+            <button class="cat-item" data-cat="Тюльпани" onclick="filterCategory(this, 'Тюльпани')">
+                <span class="cat-item-icon">🌷</span>
+                <span class="cat-item-label">Тюльпани</span>
+                <span class="cat-item-count" id="count-Тюльпани">1</span>
+            </button>
+            <button class="cat-item" data-cat="Мікс" onclick="filterCategory(this, 'Мікс')">
+                <span class="cat-item-icon">🌺</span>
+                <span class="cat-item-label">Мікс</span>
+                <span class="cat-item-count" id="count-Мікс">2</span>
+            </button>
+        </div>
+        <div class="cat-sidebar-footer">
+            <button class="btn primary-btn" style="width:100%" onclick="switchTab('build'); toggleCategories(); toggleCart();">
+                🌸 Скласти свій букет
+            </button>
+        </div>
+    </div>
 
     <!-- Кошик -->
     <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
