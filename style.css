@@ -391,24 +391,17 @@ footer {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Modal */
+/* Modal — bulletproof centering */
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(58, 51, 48, 0.45);
+    position: fixed !important;
+    z-index: 9999 !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(58, 51, 48, 0.5);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     overflow-y: auto;
-    /* Use flex with min-height trick for true centering with scroll */
-}
-.modal.open {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
 }
 
 .modal-content {
@@ -416,14 +409,15 @@ footer {
     padding: 36px 32px;
     border-radius: 24px;
     max-width: 460px;
-    width: 100%;
+    width: calc(100% - 40px);
     text-align: center;
-    box-shadow: 0 30px 80px rgba(58, 51, 48, 0.2);
-    position: relative;
-    animation: heroReveal 0.35s ease-out both;
+    box-shadow: 0 30px 80px rgba(58, 51, 48, 0.25);
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
     border: 1px solid var(--border);
-    /* Critical: ensure it never gets taller than viewport */
-    max-height: calc(100vh - 40px);
+    max-height: calc(100vh - 60px);
     overflow-y: auto;
 }
 
@@ -1370,3 +1364,26 @@ footer {
 }
 .filter-badge:hover { background: var(--accent); color: var(--white); }
 
+
+/* Build nav button */
+.build-nav-btn {
+    padding: 8px 18px;
+    border-radius: 30px;
+    border: 1.5px solid var(--accent);
+    background: var(--accent-light);
+    color: var(--accent-hover);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 6px;
+}
+.build-nav-btn:hover {
+    background: var(--accent);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(201,168,124,0.35);
+}

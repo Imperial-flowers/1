@@ -89,7 +89,8 @@ function sendToMessenger(platform, message) {
 function orderBouquet(bouquetName) {
     currentBouquetItem = bouquetName;
     document.getElementById('modalBouquetName').innerText = `Букет: "${bouquetName}"`;
-    document.getElementById('bookingModal').classList.add('open');
+    const m = document.getElementById('bookingModal');
+    m.style.display = 'block';
     document.body.style.overflow = 'hidden';
     document.getElementById('bookingDate').value = '';
     const today = new Date().toISOString().split('T')[0];
@@ -111,7 +112,8 @@ function openContact(platform, phone) {
 function reserveBouquet(bouquetName) {
     currentBouquetItem = bouquetName;
     document.getElementById('modalBouquetName').innerText = `Букет: "${bouquetName}"`;
-    document.getElementById('bookingModal').classList.add('open');
+    const m = document.getElementById('bookingModal');
+    m.style.display = 'block';
     document.body.style.overflow = 'hidden';
     document.getElementById('dateGroup').style.display = 'block';
     document.getElementById('bookingDate').value = '';
@@ -124,7 +126,8 @@ function reserveBouquet(bouquetName) {
 }
 
 function closeModal() {
-    document.getElementById('bookingModal').classList.remove('open');
+    const m = document.getElementById('bookingModal');
+    m.style.display = 'none';
     document.body.style.overflow = '';
     document.getElementById('bookingDate').value = '';
 }
@@ -513,4 +516,9 @@ function filterCategory(btn, cat) {
 
     // Scroll to catalog
     document.getElementById('catalog').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function openBuildTab() {
+    switchTab('build');
+    toggleCart();
 }
