@@ -402,10 +402,12 @@ footer {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     overflow-y: auto;
+    /* Use flex with min-height trick for true centering with scroll */
 }
 .modal.open {
-    display: grid !important;
-    place-items: center;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
 }
 
@@ -420,6 +422,9 @@ footer {
     position: relative;
     animation: heroReveal 0.35s ease-out both;
     border: 1px solid var(--border);
+    /* Critical: ensure it never gets taller than viewport */
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
 }
 
 .modal-content h2 { font-size: 28px; font-style: italic; margin-bottom: 8px; font-weight: 400; }
@@ -1365,149 +1370,3 @@ footer {
 }
 .filter-badge:hover { background: var(--accent); color: var(--white); }
 
-/* ════════════════════════════════
-   NAV DROPDOWN (hover on Каталог)
-   ════════════════════════════════ */
-
-.nav-dropdown {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.nav-dropdown-trigger {
-    text-decoration: none;
-    color: var(--text-muted);
-    padding: 8px 18px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-radius: 30px;
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    user-select: none;
-}
-.nav-dropdown-trigger:hover,
-.nav-dropdown:hover .nav-dropdown-trigger {
-    color: var(--text-main);
-    border-color: var(--border);
-    background: var(--accent-light);
-}
-.nav-arrow {
-    font-size: 10px;
-    transition: transform 0.3s ease;
-    opacity: 0.6;
-}
-.nav-dropdown:hover .nav-arrow {
-    transform: rotate(180deg);
-}
-
-/* Dropdown panel */
-.nav-dropdown-menu {
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    width: 240px;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    box-shadow: 0 20px 60px rgba(58,51,48,0.12);
-    padding: 12px 10px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px);
-    transition: all 0.25s ease;
-    z-index: 500;
-}
-.nav-dropdown:hover .nav-dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.dropdown-header {
-    font-family: 'Playfair Display', serif;
-    font-size: 16px;
-    font-style: italic;
-    color: var(--text-muted);
-    padding: 4px 10px 10px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 6px;
-}
-
-.dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    padding: 10px 10px;
-    border-radius: 10px;
-    border: 1.5px solid transparent;
-    background: transparent;
-    cursor: pointer;
-    font-family: 'Montserrat', sans-serif;
-    text-align: left;
-    transition: all 0.2s ease;
-}
-.dropdown-item:hover {
-    background: var(--accent-light);
-    border-color: var(--border);
-}
-.dropdown-item.active {
-    background: var(--accent-light);
-    border-color: var(--accent);
-}
-.di-icon { font-size: 20px; flex-shrink: 0; }
-.di-label {
-    flex: 1;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-main);
-}
-.di-count {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--accent-hover);
-    background: var(--bg-color);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 2px 8px;
-}
-.dropdown-item.active .di-count {
-    background: var(--accent);
-    color: var(--white);
-    border-color: var(--accent);
-}
-
-.dropdown-divider {
-    height: 1px;
-    background: var(--border);
-    margin: 8px 6px;
-}
-
-.dropdown-build {
-    width: 100%;
-    padding: 11px 10px;
-    border-radius: 10px;
-    border: 1.5px dashed var(--accent);
-    background: var(--accent-light);
-    color: var(--accent-hover);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-top: 2px;
-}
-.dropdown-build:hover {
-    background: var(--accent);
-    color: var(--white);
-    border-style: solid;
-}

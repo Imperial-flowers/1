@@ -90,6 +90,7 @@ function orderBouquet(bouquetName) {
     currentBouquetItem = bouquetName;
     document.getElementById('modalBouquetName').innerText = `Букет: "${bouquetName}"`;
     document.getElementById('bookingModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
     document.getElementById('bookingDate').value = '';
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('bookingDate').setAttribute('min', today);
@@ -111,6 +112,7 @@ function reserveBouquet(bouquetName) {
     currentBouquetItem = bouquetName;
     document.getElementById('modalBouquetName').innerText = `Букет: "${bouquetName}"`;
     document.getElementById('bookingModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
     document.getElementById('dateGroup').style.display = 'block';
     document.getElementById('bookingDate').value = '';
     const today = new Date().toISOString().split('T')[0];
@@ -123,6 +125,7 @@ function reserveBouquet(bouquetName) {
 
 function closeModal() {
     document.getElementById('bookingModal').classList.remove('open');
+    document.body.style.overflow = '';
     document.getElementById('bookingDate').value = '';
 }
 
