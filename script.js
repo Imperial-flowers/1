@@ -14,10 +14,10 @@ function selectMessenger(platform) {
     const hint = document.getElementById('copyHint');
     const detail = document.getElementById('copyHintDetail');
     if (platform === 'viber') {
-        detail.innerHTML = 'Після відкриття Viber — натисніть і утримайте поле вводу та оберіть <b>«Вставити»</b>.';
+        detail.innerHTML = 'Текст із назвою букету та обраною датою вже буде у вашому буфері обміну — вам залишиться лише відкрити Viber, натиснути і утримати поле вводу та обрати <b>«Вставити»</b> ✨';
         hint.style.display = 'flex';
     } else if (platform === 'instagram') {
-        detail.innerHTML = 'Після відкриття Instagram Direct — натисніть і утримайте поле вводу та оберіть <b>«Вставити»</b>.';
+        detail.innerHTML = 'Текст із назвою букету та обраною датою вже буде у вашому буфері обміну — вам залишиться лише відкрити Instagram Direct, натиснути і утримати поле вводу та обрати <b>«Вставити»</b> ✨';
         hint.style.display = 'flex';
     } else {
         hint.style.display = 'none';
