@@ -89,7 +89,7 @@ function sendToMessenger(platform, message) {
 function orderBouquet(bouquetName) {
     currentBouquetItem = bouquetName;
     document.getElementById('modalBouquetName').innerText = `Букет: "${bouquetName}"`;
-    document.getElementById('bookingModal').style.display = 'flex';
+    document.getElementById('bookingModal').classList.add('open');
     document.getElementById('bookingDate').value = '';
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('bookingDate').setAttribute('min', today);
@@ -110,7 +110,7 @@ function openContact(platform, phone) {
 function reserveBouquet(bouquetName) {
     currentBouquetItem = bouquetName;
     document.getElementById('modalBouquetName').innerText = `Букет: "${bouquetName}"`;
-    document.getElementById('bookingModal').style.display = 'flex';
+    document.getElementById('bookingModal').classList.add('open');
     document.getElementById('dateGroup').style.display = 'block';
     document.getElementById('bookingDate').value = '';
     const today = new Date().toISOString().split('T')[0];
@@ -122,7 +122,7 @@ function reserveBouquet(bouquetName) {
 }
 
 function closeModal() {
-    document.getElementById('bookingModal').style.display = 'none';
+    document.getElementById('bookingModal').classList.remove('open');
     document.getElementById('bookingDate').value = '';
 }
 
@@ -150,7 +150,7 @@ function confirmBooking() {
 
 window.onclick = function(event) {
     const modal = document.getElementById('bookingModal');
-    if (event.target == modal) closeModal();
+    if (event.target == modal) closeModal();;
 }
 
 /* ════════════════════════════════
@@ -219,8 +219,7 @@ function updateCartUI() {
     if (!container) return;
 
     if (cart.length === 0) {
-        container.innerHTML = '';
-        container.appendChild(emptyEl || createEmptyEl());
+        container.innerHTML = '<div class="cart-empty"><span>🌸</span><p>Кошик порожній</p><small>Додайте букети, які вам сподобались</small></div>';
         return;
     }
 
@@ -286,3 +285,171 @@ function orderFromCart() {
     sendToMessenger(cartMessenger, message);
     toggleCart();
 }
+
+/* ════════════════════════════════
+   BOUQUET BUILDER
+   ════════════════════════════════ */
+
+const FLOWER_COLORS = {
+    'Троянди':     [
+        { name: 'Червоні',    hex: '#c0392b' },
+        { name: 'Рожеві',     hex: '#e91e8c' },
+        { name: 'Білі',       hex: '#f5f0eb' },
+        { name: 'Кремові',    hex: '#f0d9b5' },
+        { name: 'Жовті',      hex: '#f1c40f' },
+        { name: 'Бордові',    hex: '#7b1e3a' },
+        { name: 'Персикові',  hex: '#ffb347' },
+        { name: 'Мікс',       hex: 'linear-gradient(135deg,#e91e8c,#f1c40f,#c0392b)' },
+    ],
+    'Хризантеми':  [
+        { name: 'Білі',       hex: '#f5f0eb' },
+        { name: 'Жовті',      hex: '#f1c40f' },
+        { name: 'Рожеві',     hex: '#e91e8c' },
+        { name: 'Фіолетові',  hex: '#8e44ad' },
+        { name: 'Кремові',    hex: '#f0d9b5' },
+        { name: 'Мікс',       hex: 'linear-gradient(135deg,#f5f0eb,#f1c40f,#e91e8c)' },
+    ],
+    'Тюльпани':    [
+        { name: 'Червоні',    hex: '#c0392b' },
+        { name: 'Рожеві',     hex: '#e91e8c' },
+        { name: 'Білі',       hex: '#f5f0eb' },
+        { name: 'Жовті',      hex: '#f1c40f' },
+        { name: 'Фіолетові',  hex: '#8e44ad' },
+        { name: 'Помаранчеві',hex: '#e67e22' },
+        { name: 'Мікс',       hex: 'linear-gradient(135deg,#c0392b,#f1c40f,#e91e8c)' },
+    ]
+};
+
+let currentFlowerType = 'Троянди';
+let currentColor = null;
+let customQty = 1;
+let customFlowers = []; // [{type, color, qty}]
+let buildMessenger = 'telegram';
+
+// Render colors for selected flower type
+function renderColors(type) {
+    const grid = document.getElementById('colorGrid');
+    const colors = FLOWER_COLORS[type] || [];
+    grid.innerHTML = colors.map(c => {
+        const dotStyle = c.hex.startsWith('linear')
+            ? `background:${c.hex}; border:none;`
+            : `background:${c.hex};`;
+        return `<button class="color-chip ${currentColor === c.name ? 'active' : ''}"
+                    onclick="selectColor('${c.name}')" data-color="${c.name}">
+                    <span class="color-dot" style="${dotStyle}"></span>
+                    ${c.name}
+                </button>`;
+    }).join('');
+}
+
+function selectFlowerType(btn) {
+    document.querySelectorAll('.flower-type-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFlowerType = btn.dataset.type;
+    currentColor = null;
+    renderColors(currentFlowerType);
+}
+
+function selectColor(name) {
+    currentColor = name;
+    document.querySelectorAll('.color-chip').forEach(c => {
+        c.classList.toggle('active', c.dataset.color === name);
+    });
+}
+
+function changeCustomQty(delta) {
+    customQty = Math.max(1, Math.min(999, customQty + delta));
+    document.getElementById('customQty').textContent = customQty;
+}
+
+function addCustomFlower() {
+    if (!currentColor) {
+        const grid = document.getElementById('colorGrid');
+        grid.style.outline = '2px solid var(--accent)';
+        grid.style.borderRadius = '8px';
+        setTimeout(() => grid.style.outline = '', 1200);
+        return;
+    }
+    customFlowers.push({ type: currentFlowerType, color: currentColor, qty: customQty });
+    renderCustomList();
+    // reset
+    currentColor = null;
+    customQty = 1;
+    document.getElementById('customQty').textContent = '1';
+    document.querySelectorAll('.color-chip').forEach(c => c.classList.remove('active'));
+}
+
+function removeCustomFlower(idx) {
+    customFlowers.splice(idx, 1);
+    renderCustomList();
+}
+
+function renderCustomList() {
+    const section = document.getElementById('customListSection');
+    const list = document.getElementById('customList');
+    const footer = document.getElementById('buildFooter');
+    const empty = document.getElementById('buildEmpty');
+
+    if (customFlowers.length === 0) {
+        section.style.display = 'none';
+        footer.style.display = 'none';
+        empty.style.display = 'flex';
+        return;
+    }
+
+    section.style.display = 'block';
+    footer.style.display = 'block';
+    empty.style.display = 'none';
+
+    list.innerHTML = customFlowers.map((f, i) => `
+        <div class="custom-item">
+            <div class="custom-item-info">
+                <div class="custom-item-name">${f.type}</div>
+                <div class="custom-item-detail">${f.color} · ${f.qty} шт.</div>
+            </div>
+            <button class="custom-item-remove" onclick="removeCustomFlower(${i})">×</button>
+        </div>
+    `).join('');
+}
+
+function selectBuildMessenger(m) {
+    buildMessenger = m;
+    document.querySelectorAll('[data-bm]').forEach(b => b.classList.remove('active'));
+    document.querySelector(`[data-bm="${m}"]`).classList.add('active');
+
+    const hint = document.getElementById('buildCopyHint');
+    const hintText = document.getElementById('buildCopyHintText');
+    if (m === 'viber') {
+        hintText.innerHTML = 'Після відкриття Viber — натисніть і утримайте поле вводу та оберіть <b>«Вставити»</b> ✨';
+        hint.style.display = 'flex';
+    } else if (m === 'instagram') {
+        hintText.innerHTML = 'Після відкриття Instagram Direct — натисніть і утримайте поле вводу та оберіть <b>«Вставити»</b> ✨';
+        hint.style.display = 'flex';
+    } else {
+        hint.style.display = 'none';
+    }
+}
+
+function orderCustomBouquet() {
+    if (customFlowers.length === 0) return;
+    const note = document.getElementById('customNote').value.trim();
+    const lines = customFlowers.map(f => `• ${f.type} (${f.color}) — ${f.qty} шт.`).join('\n');
+    let message = `Вітаю! 🌸 Хочу замовити власний букет:\n\n${lines}`;
+    if (note) message += `\n\n📝 Побажання: ${note}`;
+    message += `\n\nПідкажіть, будь ласка, актуальну ціну та як оформити замовлення?`;
+    sendToMessenger(buildMessenger, message);
+    toggleCart();
+}
+
+// Tab switching
+function switchTab(tab) {
+    document.getElementById('tabCart').classList.toggle('active', tab === 'cart');
+    document.getElementById('tabBuild').classList.toggle('active', tab === 'build');
+    document.getElementById('panelCart').style.display = tab === 'cart' ? 'flex' : 'none';
+    document.getElementById('panelBuild').style.display = tab === 'build' ? 'flex' : 'none';
+}
+
+// Init color grid on page load
+document.addEventListener('DOMContentLoaded', () => {
+    renderColors('Троянди');
+});
