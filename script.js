@@ -572,3 +572,52 @@ function openCat(catId) {
     // Scroll to catalog
     document.getElementById('catalog').scrollIntoView({behavior: 'smooth', block: 'start'});
 }
+
+/* ═══════════════════════════════════════════
+   CATALOG INIT — show 4 per category on load
+   ═══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function() {
+    // On load: show max 4 items per category as preview
+    showCatalogOverview();
+});
+
+function showCatalogOverview() {
+    const countPerCat = {};
+    document.querySelectorAll('.pc').forEach(card => {
+        const cat = card.dataset.cat;
+        countPerCat[cat] = (countPerCat[cat] || 0) + 1;
+        // Show only first 4 per category
+        card.classList.toggle('hidden', countPerCat[cat] > 4);
+    });
+    document.getElementById('catTitle').textContent = 'Всі категорії';
+    document.getElementById('catDesc').textContent = 'Весь асортимент Imperial — від класичних букетів до унікальних подарунків';
+    document.getElementById('catEmpty').style.display = 'none';
+    document.getElementById('pcGrid').style.display = 'grid';
+}
+
+// Override openCat and showCat to show ALL items of selected category
+function openCat(catId) {
+    // Close dropdown
+    document.getElementById('navCatMenu')?.classList.remove('open');
+    document.getElementById('catArrow')?.classList.remove('open');
+    document.querySelector('.nav-cat-trigger')?.classList.remove('open');
+
+    if (catId === 'all') {
+        showCatalogOverview();
+    } else {
+        const info = CATS[catId] || {label: catId, desc: ''};
+        document.getElementById('catTitle').textContent = info.label;
+        document.getElementById('catDesc').textContent = info.desc;
+
+        let visible = 0;
+        document.querySelectorAll('.pc').forEach(card => {
+            const show = card.dataset.cat === catId;
+            card.classList.toggle('hidden', !show);
+            if (show) visible++;
+        });
+        document.getElementById('catEmpty').style.display = visible === 0 ? 'block' : 'none';
+        document.getElementById('pcGrid').style.display = visible === 0 ? 'none' : 'grid';
+    }
+
+    document.getElementById('catalog').scrollIntoView({behavior: 'smooth', block: 'start'});
+}
