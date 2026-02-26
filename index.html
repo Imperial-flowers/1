@@ -666,32 +666,55 @@ function modalSend(platform) {
 // ═══════════════════════════════
 // MESSENGER SEND
 // ═══════════════════════════════
-function send(platform, msg) {
-  var enc = encodeURIComponent(msg);
+    function send(platform, msg) {
+        var enc = encodeURIComponent(msg);
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var url = "";
 
-  if (platform === 'telegram') {
-    window.open('https://t.me/olhapalanich?text=' + enc, '_blank');
+        if (platform === 'telegram') {
+            // На мобильных используем протокол tg://, на ПК — стандартную ссылку
+            url = isMobile
+                ? 'tg://resolve?domain=olhapalanich&text=' + enc
+                : 'https://t.me/olhapalanich?text=' + enc;
 
-  } else if (platform === 'whatsapp') {
-    window.open('https://wa.me/380970938241?text=' + enc, '_blank');
+        } else if (platform === 'whatsapp') {
+            url = 'https://wa.me/380970938241?text=' + enc;
 
-  } else if (platform === 'viber') {
-    // Copy message, show toast, then open Viber
-    copyText(msg);
-    showToast('📋 <b>Повідомлення скопійовано!</b><br><small>Відкриваємо Viber — вставте текст у поле чату (утримайте → Вставити)</small>');
-    setTimeout(function() {
-      window.open('viber://chat?number=%2B380970938241', '_blank');
-    }, 1800);
+        } else if (platform === 'viber') {
+            copyText(msg);
+            showToast('📋 <b>Повідомлення скопійовано!</b><br><small>Відкриваємо Viber — вставте текст у поле чату</small>');
+            setTimeout(function () {
+                window.location.href = 'viber://chat?number=%2B380970938241';
+            }, 1200);
+            return;
 
-  } else if (platform === 'instagram') {
-    // Copy message, show toast, then open Instagram
-    if (msg) copyText(msg);
-    showToast('📋 <b>Повідомлення скопійовано!</b><br><small>Відкриваємо Instagram — вставте текст у Direct (утримайте → Вставити)</small>');
-    setTimeout(function() {
-        window.open('https://www.instagram.com/direct/t/18028397255607949/', '_blank');
-    }, 1800);
-  }
-}
+        } else if (platform === 'instagram') {
+            if (msg) copyText(msg);
+            showToast('📋 <b>Повідомлення скопійовано!</b><br><small>Відкриваємо Instagram — вставте текст у Direct</small>');
+
+            // Ссылка через ig.me лучше открывает приложение на iOS
+            var igUrl = 'https://ig.me/m/kvi_tka24';
+
+            setTimeout(function () {
+                if (isMobile) {
+                    window.location.href = igUrl;
+                } else {
+                    window.open(igUrl, '_blank');
+                }
+            }, 1200);
+            return;
+        }
+
+        // Для Telegram и WhatsApp выполняем переход
+        if (url) {
+            if (isMobile) {
+                // На iOS window.open часто блокируется, используем прямую замену адреса
+                window.location.href = url;
+            } else {
+                window.open(url, '_blank');
+            }
+        }
+    }
 
 function copyText(text) {
   if (navigator.clipboard && navigator.clipboard.writeText) {
