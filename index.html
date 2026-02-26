@@ -200,6 +200,16 @@ body { font-family:'Montserrat',sans-serif; background:var(--bg); color:var(--te
   .hero-card { padding:30px 18px; }
   .hero-title { font-size:27px; }
 }
+
+/* BOUQUETS */
+.bouquets { padding:70px 0 80px; background:white; }
+.bouquets-inner { max-width:1100px; margin:0 auto; padding:0 24px; }
+.bq-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:18px;
+}
+@media(max-width:600px){ .bq-grid{ grid-template-columns:repeat(2,1fr); gap:12px; } }
 </style>
 </head>
 <body>
@@ -214,7 +224,9 @@ body { font-family:'Montserrat',sans-serif; background:var(--bg); color:var(--te
           Каталог <span class="cat-arrow">▾</span>
         </button>
         <div class="dropdown" id="dropdown">
-          <button class="dd-item" onclick="goAcc('kulky')">🎈 Кульки <span>5</span></button>
+          <button class="dd-item dd-all" onclick="document.getElementById('bouquets').scrollIntoView({behavior:'smooth'});closeDd()">💐 Букети <span>9</span></button>
+          <div class="dd-sep"></div>
+                    <button class="dd-item" onclick="goAcc('kulky')">🎈 Кульки <span>5</span></button>
           <button class="dd-item" onclick="goAcc('solodki')">🍬 Солодкі букети <span>6</span></button>
           <button class="dd-item" onclick="goAcc('igrashky')">🧸 М'які іграшки <span>8</span></button>
           <button class="dd-item" onclick="goAcc('korobky')">🎁 Коробки та кошики <span>10</span></button>
@@ -259,6 +271,17 @@ body { font-family:'Montserrat',sans-serif; background:var(--bg); color:var(--te
     <h1 class="hero-title">Ексклюзивні квіти для ваших особливих моментів</h1>
     <p class="hero-sub">Кожен букет — це витвір мистецтва, створений з любов'ю та увагою до найменших деталей.</p>
     <button class="hero-cta" onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">Переглянути букети</button>
+  </div>
+</section>
+
+<!-- BOUQUETS -->
+<section class="bouquets" id="bouquets">
+  <div class="bouquets-inner">
+    <div class="catalog-hdr">
+      <h2>Букети</h2>
+      <p>Наші авторські букети — кожен створений з душею</p>
+    </div>
+    <div class="bq-grid" id="bqGrid"></div>
   </div>
 </section>
 
@@ -580,17 +603,51 @@ function openContact(p) {
 }
 
 // === MESSENGER ===
+function copyToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text);
+  }
+  return new Promise((res) => {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try { document.execCommand('copy'); } catch(e){}
+    document.body.removeChild(ta); res();
+  });
+}
+
+function showCopyToast(p) {
+  let t = document.getElementById('copyToast');
+  if (!t) {
+    t = document.createElement('div'); t.id='copyToast';
+    t.style.cssText='position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:#2c2420;color:white;padding:16px 24px;border-radius:16px;font-family:Montserrat,sans-serif;font-size:13px;font-weight:500;z-index:9999;box-shadow:0 10px 40px rgba(0,0,0,.3);text-align:center;line-height:1.6;max-width:330px;opacity:0;transition:all .3s ease;pointer-events:none;';
+    document.body.appendChild(t);
+  }
+  const nm = p==='viber'?'Viber':'Instagram';
+  t.innerHTML = '📋 <b>Повідомлення скопійовано!</b><br><small style="opacity:.75">Відкриваємо ' + nm + ' — вставте текст у поле чату (утримайте → Вставити)</small>';
+  t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)';
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; }, 4500);
+}
+
 function sendMsg(p, msg) {
   const phone = '380970938241';
   const enc = encodeURIComponent(msg);
-  const urls = {
-    telegram: `https://t.me/+${phone}?text=${enc}`,
-    whatsapp: `https://wa.me/${phone}?text=${enc}`,
-    viber:    `viber://chat?number=%2B${phone}&text=${enc}`,
-    instagram:`https://instagram.com/kvi_tka24`,
-  };
-  if (p==='viber'||p==='instagram') navigator.clipboard?.writeText(msg).catch(()=>{});
-  window.open(urls[p],'_blank');
+  if (p === 'viber') {
+    copyToClipboard(msg).then(()=>{
+      showCopyToast('viber');
+      setTimeout(()=> window.open('viber://chat?number=%2B' + phone, '_blank'), 1800);
+    });
+  } else if (p === 'instagram') {
+    copyToClipboard(msg).then(()=>{
+      showCopyToast('instagram');
+      setTimeout(()=> window.open('https://instagram.com/kvi_tka24', '_blank'), 1800);
+    });
+  } else if (p === 'telegram') {
+    // Use phone number link — opens chat with pre-filled text
+    window.open('https://t.me/olhapalanic?text=' + enc, '_blank');
+  } else if (p === 'whatsapp') {
+    window.open('https://wa.me/380970938241?text=' + enc, '_blank');
+  }
 }
 
 // === BUILDER ===
@@ -640,6 +697,21 @@ function sendBld() {
   sendMsg(bldMs, msg);
   closeSb();
 }
+
+// Build bouquet grid
+(function() {
+  const g = document.getElementById('bqGrid');
+  if (!g) return;
+  let html = '';
+  for (let i = 1; i <= 9; i++) {
+    const name = 'Букет #' + i;
+    const src  = 'images/images1/' + i + '.jpg';
+    const ns   = name.replace(/'/g, "\'");
+    html += '<div class="pc"><div class="pc-img"><img src="' + src + '" alt="' + name + '" loading="lazy" onerror="this.parentElement.style.background='#f5ede6'"></div><div class="pc-body"><div class="pc-name">' + name + '</div><div class="pc-btns"><button class="pc-cart" onclick="addCart('' + ns + '')">В кошик</button><button class="pc-order" onclick="openModal('' + ns + '')">Замовити</button></div></div></div>';
+  }
+  g.innerHTML = html;
+})();
+
 </script>
 </body>
 </html>
