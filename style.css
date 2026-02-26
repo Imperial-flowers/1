@@ -2011,3 +2011,20 @@ footer {
         width: 200px;
     }
 }
+
+/* Catalog welcome state */
+.cat-welcome {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-muted);
+}
+.cat-welcome-icon { font-size: 52px; margin-bottom: 16px; opacity: 0.5; }
+.cat-welcome h3 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--text-main);
+    margin-bottom: 10px;
+}
+.cat-welcome p { font-size: 14px; line-height: 1.7; }

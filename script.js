@@ -180,56 +180,47 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function showCatalogOverview() {
-    const countPerCat = {};
-    document.querySelectorAll('.pc').forEach(card => {
-        const cat = card.dataset.cat;
-        countPerCat[cat] = (countPerCat[cat] || 0) + 1;
-        card.classList.toggle('hidden', countPerCat[cat] > 4);
-    });
+    // Hide grid on load — user must pick category from dropdown
+    document.querySelectorAll('.pc').forEach(card => card.classList.add('hidden'));
+    const gridEl  = document.getElementById('pcGrid');
+    const emptyEl = document.getElementById('catEmpty');
     const titleEl = document.getElementById('catTitle');
     const descEl  = document.getElementById('catDesc');
-    if (titleEl) titleEl.textContent = 'Всі категорії';
-    if (descEl)  descEl.textContent  = 'Весь асортимент Imperial — від класичних букетів до унікальних подарунків';
-    const emptyEl = document.getElementById('catEmpty');
-    const gridEl  = document.getElementById('pcGrid');
+    if (gridEl)  gridEl.style.display  = 'none';
     if (emptyEl) emptyEl.style.display = 'none';
-    if (gridEl)  gridEl.style.display  = 'grid';
+    if (titleEl) titleEl.textContent = 'Оберіть категорію';
+    if (descEl)  descEl.textContent  = 'Натисніть «Каталог» у меню вище, щоб переглянути товари';
 }
 
 function openCat(catId) {
-    // Закрити дропдаун
-    const menu    = document.getElementById('navCatMenu');
-    const arrow   = document.getElementById('catArrow');
-    const trigger = document.querySelector('.nav-cat-trigger');
-    if (menu)    menu.classList.remove('open');
-    if (arrow)   arrow.classList.remove('open');
-    if (trigger) trigger.classList.remove('open');
+    // Close dropdown
+    ['navCatMenu','catArrow'].forEach(id => document.getElementById(id)?.classList.remove('open'));
+    document.querySelector('.nav-cat-trigger')?.classList.remove('open');
 
     const titleEl = document.getElementById('catTitle');
     const descEl  = document.getElementById('catDesc');
     const emptyEl = document.getElementById('catEmpty');
     const gridEl  = document.getElementById('pcGrid');
 
-    if (catId === 'all') {
-        showCatalogOverview();
-    } else {
-        const info = CATS[catId] || {label: catId, desc: ''};
-        if (titleEl) titleEl.textContent = info.label;
-        if (descEl)  descEl.textContent  = info.desc;
+    const info = catId === 'all'
+        ? {label:'Всі категорії', desc:'Весь асортимент Imperial'}
+        : (CATS[catId] || {label:catId, desc:''});
 
-        let visible = 0;
-        document.querySelectorAll('.pc').forEach(card => {
-            const show = card.dataset.cat === catId;
-            card.classList.toggle('hidden', !show);
-            if (show) visible++;
-        });
-        if (emptyEl) emptyEl.style.display = visible === 0 ? 'block' : 'none';
-        if (gridEl)  gridEl.style.display  = visible === 0 ? 'none' : 'grid';
-    }
+    if (titleEl) titleEl.textContent = info.label;
+    if (descEl)  descEl.textContent  = info.desc;
 
-    // Прокрутка до каталогу
-    const catSection = document.getElementById('catalog');
-    if (catSection) catSection.scrollIntoView({behavior: 'smooth', block: 'start'});
+    let visible = 0;
+    document.querySelectorAll('.pc').forEach(card => {
+        const show = catId === 'all' || card.dataset.cat === catId;
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+    });
+
+    if (gridEl)  gridEl.style.display  = visible > 0 ? 'grid' : 'none';
+    if (emptyEl) emptyEl.style.display = visible === 0 ? 'block' : 'none';
+
+    document.getElementById('catWelcome')?.style && (document.getElementById('catWelcome').style.display = 'none');
+    document.getElementById('catalog')?.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 // Дропдаун каталогу — position fixed, правильне розміщення
