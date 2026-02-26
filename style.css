@@ -2028,3 +2028,128 @@ footer {
     margin-bottom: 10px;
 }
 .cat-welcome p { font-size: 14px; line-height: 1.7; }
+
+/* ═══════════════════════════════════════════
+   ACCORDION CATALOG
+   ═══════════════════════════════════════════ */
+.cat-section {
+    background: var(--bg-color);
+    padding: 60px 0 80px;
+    position: relative; z-index: 1;
+}
+.cat-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 28px;
+}
+.cat-main-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+.cat-main-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 36px;
+}
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ── Accordion block ── */
+.acc-block {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+.acc-block:hover { box-shadow: 0 4px 20px rgba(58,51,48,0.08); }
+.acc-block.open  { box-shadow: 0 6px 30px rgba(58,51,48,0.1); border-color: var(--accent); }
+
+/* ── Accordion header ── */
+.acc-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 18px 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s ease;
+}
+.acc-head:hover { background: var(--accent-light); }
+.acc-block.open .acc-head { background: var(--accent-light); }
+
+.acc-icon { font-size: 24px; flex-shrink: 0; }
+.acc-label {
+    flex: 1;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-main);
+    letter-spacing: 0.3px;
+}
+.acc-count {
+    background: var(--bg-color);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+}
+.acc-block.open .acc-count {
+    background: var(--accent);
+    color: var(--white);
+    border-color: var(--accent);
+}
+.acc-arrow {
+    font-size: 14px;
+    color: var(--text-muted);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+.acc-block.open .acc-arrow { transform: rotate(180deg); }
+
+/* ── Accordion body ── */
+.acc-body {
+    border-top: 1px solid var(--border);
+    padding: 24px 22px;
+    animation: accOpen 0.25s ease;
+}
+@keyframes accOpen {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.acc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 16px;
+}
+.acc-empty {
+    text-align: center;
+    padding: 30px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .acc-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .acc-head { padding: 14px 16px; }
+    .acc-label { font-size: 13px; }
+    .cat-main-title { font-size: 26px; }
+}
+@media (max-width: 400px) {
+    .acc-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .acc-body { padding: 14px 12px; }
+}

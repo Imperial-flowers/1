@@ -454,3 +454,48 @@ function orderCustomBouquet() {
     sendToMessenger(buildMessenger, msg);
     toggleCart();
 }
+
+/* ═══════════════════════════════════════════
+   ACCORDION CATALOG
+   ═══════════════════════════════════════════ */
+
+function toggleAcc(id) {
+    const block = document.getElementById('acc-' + id);
+    const body  = document.getElementById('accBody-' + id);
+    if (!block || !body) return;
+    const isOpen = block.classList.contains('open');
+    // Close all others
+    document.querySelectorAll('.acc-block').forEach(b => {
+        b.classList.remove('open');
+        const bodyEl = b.querySelector('.acc-body');
+        if (bodyEl) bodyEl.style.display = 'none';
+    });
+    // Toggle this one
+    if (!isOpen) {
+        block.classList.add('open');
+        body.style.display = 'block';
+    }
+}
+
+function openAcc(id) {
+    // Close nav dropdown
+    document.getElementById('navCatMenu')?.classList.remove('open');
+    document.getElementById('catArrow')?.classList.remove('open');
+    document.querySelector('.nav-cat-trigger')?.classList.remove('open');
+
+    if (id === 'all') {
+        // Open all
+        document.querySelectorAll('.acc-block').forEach(b => {
+            b.classList.add('open');
+            const body = b.querySelector('.acc-body');
+            if (body) body.style.display = 'block';
+        });
+    } else {
+        toggleAcc(id);
+    }
+    // Scroll to the block
+    const target = id === 'all'
+        ? document.getElementById('catalog')
+        : document.getElementById('acc-' + id);
+    if (target) setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 50);
+}
