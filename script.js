@@ -527,3 +527,78 @@ function openBuildTab() {
     // Always switch to build tab
     switchTab('build');
 }
+
+/* ════════════════════════════════
+   NEW CATEGORY SYSTEM
+   ════════════════════════════════ */
+
+function showCategory(catId) {
+    // Hide all panels
+    document.querySelectorAll('.cat-panel').forEach(p => p.style.display = 'none');
+    // Show selected
+    const panel = document.getElementById('panel-' + catId);
+    if (panel) panel.style.display = 'block';
+
+    // Update active sidebar item
+    document.querySelectorAll('.cat-side-item').forEach(b => b.classList.remove('active'));
+    const activeBtn = document.querySelector(`[data-catid="${catId}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+
+    // Scroll to catalog on mobile
+    if (window.innerWidth < 900) {
+        document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Init: show all-panel on load
+document.addEventListener('DOMContentLoaded', () => {
+    showCategory('all');
+    renderColors('Троянди');
+});
+
+/* ════════════════════════════════
+   NEW CATALOG FILTER
+   ════════════════════════════════ */
+
+const CAT_INFO = {
+    'all':        { label: 'Всі категорії',        desc: 'Весь асортимент Imperial — від класичних букетів до унікальних подарунків' },
+    'troyandy':   { label: 'Троянди',              desc: 'Розкішні троянди — символ любові та вишуканості' },
+    'khrizantema':{ label: 'Хризантема',           desc: 'Ніжні хризантеми — для особливих моментів' },
+    'tulpany':    { label: 'Тюльпани',             desc: 'Яскраві тюльпани — весняний настрій у букеті' },
+    'kulky':      { label: 'Кульки',               desc: 'Святкові кульки для будь-якого свята' },
+    'solodki':    { label: 'Солодкі букети',       desc: 'Смачні букети з цукерок та солодощів — оригінальний подарунок' },
+    'igrashky':   { label: "М'які іграшки",        desc: "М'які іграшки — ніжний подарунок для коханих" },
+    'topery':     { label: 'Топери',               desc: 'Красиві топери для тортів та святкових композицій' },
+    'korobky':    { label: 'Коробки та кошики',    desc: 'Елегантні коробки, сумочки та кошики з квітами' },
+    'listivky':   { label: 'Листівки',             desc: 'Красиві листівки для будь-якого приводу' },
+    'sumochky':   { label: 'Сумочки квітів',       desc: 'Стильні сумочки з квітами — модний подарунок' },
+};
+
+function showCat(btn, catId) {
+    // Update sidebar active state
+    document.querySelectorAll('.csi-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Update header
+    const info = CAT_INFO[catId] || {};
+    document.getElementById('productsTitle').textContent = info.label || catId;
+    document.getElementById('productsDesc').textContent = info.desc || '';
+
+    // Filter cards
+    const cards = document.querySelectorAll('.pcard');
+    let visible = 0;
+    cards.forEach(card => {
+        const show = catId === 'all' || card.dataset.cat === catId;
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+    });
+
+    // Show/hide empty state
+    document.getElementById('productsEmpty').style.display = visible === 0 ? 'flex' : 'none';
+    document.getElementById('productsGrid').style.display = visible === 0 ? 'none' : 'grid';
+
+    // Scroll to catalog on mobile
+    if (window.innerWidth < 900) {
+        document.getElementById('catalog').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
