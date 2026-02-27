@@ -198,7 +198,7 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
 .ig-warn h3 { font-family:'Playfair Display',serif; font-style:italic; font-size:22px; font-weight:400; margin-bottom:12px; }
 .ig-warn p { font-size:13px; color:var(--muted); line-height:1.7; margin-bottom:24px; }
 .ig-warn p b { color:var(--text); }
-.ig-warn-open { width:100%; padding:14px; border-radius:14px; background:var(--dark); border:none; color:white; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:.25s; margin-bottom:10px; }
+.ig-warn-open { display:block; width:100%; padding:14px; border-radius:14px; background:var(--dark); border:none; color:white; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:.25s; margin-bottom:10px; text-decoration:none; text-align:center; box-sizing:border-box; }
 .ig-warn-open:hover { background:var(--accent); }
 .ig-warn-cancel { width:100%; padding:12px; border-radius:12px; border:1.5px solid var(--border); background:none; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:600; cursor:pointer; color:var(--muted); transition:.2s; }
 .ig-warn-cancel:hover { background:var(--border); }
@@ -449,9 +449,11 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
     <span class="ig-warn-ico" id="appWarnIco">📱</span>
     <h3>Повідомлення скопійовано!</h3>
     <p>Текст замовлення вже в буфері обміну.<br>
-    Натисніть кнопку — відкриється <b id="appWarnApp">застосунок</b>.<br>
+    Натисніть кнопку нижче — відкриється <b id="appWarnApp">застосунок</b>.<br>
     Там утримайте поле вводу та оберіть <b>«Вставити»</b>.</p>
-    <button class="ig-warn-open" onclick="appWarnOpen()">Відкрити <span id="appWarnApp2">застосунок</span> →</button>
+    <a class="ig-warn-open" id="appWarnLink" href="#" target="_blank" rel="noopener" onclick="appWarnClose()">
+      Відкрити <span id="appWarnApp2">застосунок</span> →
+    </a>
     <button class="ig-warn-cancel" onclick="appWarnClose()">Скасувати</button>
   </div>
 </div>
@@ -490,11 +492,11 @@ function makeCard(name, src) {
 
 // Build all grids on page load
 window.addEventListener('DOMContentLoaded', function() {
-  // Bouquets: images/images1/1.jpg ... 9.jpg
+  // Bouquets: images/images1/1.jpg ... 28.jpg
   var bq = document.getElementById('pgBouquets');
   if (bq) {
     var h = '';
-    for (var i = 1; i <= 9; i++) {
+    for (var i = 1; i <= 28; i++) {
       h += makeCard('Букет #' + i, 'images/images1/' + i + '.jpg');
     }
     bq.innerHTML = h;
@@ -846,36 +848,21 @@ function bldSend() {
   sbClose();
 }
 
-// App warning popup (Viber / Instagram) — iOS safe
-var appWarnTarget = '';
-
+// App warning popup (Viber / Instagram)
+// iOS Safari ONLY opens apps if user taps a real <a href> — no JS tricks work
 function showAppWarning(app) {
-  appWarnTarget = app;
   var isIg = (app === 'instagram');
+  var url   = isIg ? 'https://ig.me/m/kvi_tka24' : 'viber://chat?number=%2B380970938241';
   document.getElementById('appWarnIco').textContent  = isIg ? '📸' : '📱';
   document.getElementById('appWarnApp').textContent  = isIg ? 'Instagram Direct' : 'Viber';
   document.getElementById('appWarnApp2').textContent = isIg ? 'Instagram Direct' : 'Viber';
+  // Set real href on the anchor — user tap will open the app natively on iOS
+  document.getElementById('appWarnLink').href = url;
   document.getElementById('appWarn').classList.add('on');
 }
 
 function appWarnClose() {
   document.getElementById('appWarn').classList.remove('on');
-  appWarnTarget = '';
-}
-
-function appWarnOpen() {
-  var url = appWarnTarget === 'instagram'
-    ? 'https://ig.me/m/kvi_tka24'
-    : 'viber://chat?number=%2B380970938241';
-  appWarnClose();
-  // Synchronous link click — the ONLY iOS-safe way to open external apps
-  var a = document.createElement('a');
-  a.href = url;
-  a.target = '_blank';
-  a.rel = 'noopener';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
 }
 
 </script>
