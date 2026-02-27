@@ -245,7 +245,7 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
           Каталог <span class="dd-arrow">▾</span>
         </button>
         <div class="dd-menu" id="ddMenu">
-          <button class="dd-btn all" onclick="ddGo('bouquets')">💐 Букети <span class="cnt">28</span></button>
+          <button class="dd-btn all" onclick="ddGo('bouquets')">💐 Букети <span class="cnt">31</span></button>
           <div class="dd-sep"></div>
           <button class="dd-btn" onclick="ddGo('kulky')">🎈 Кульки <span class="cnt">5</span></button>
           <button class="dd-btn" onclick="ddGo('solodki')">🍬 Солодкі букети <span class="cnt">6</span></button>
@@ -253,7 +253,7 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
           <button class="dd-btn" onclick="ddGo('korobky')">🎁 Коробки та кошики <span class="cnt">10</span></button>
           <button class="dd-btn" onclick="ddGo('listivky')">💌 Листівки <span class="cnt">27</span></button>
           <button class="dd-btn" onclick="ddGo('sumochky')">👜 Сумочки квітів <span class="cnt">4</span></button>
-          <button class="dd-btn" onclick="ddGo('troyandy')">🌹 Троянди <span class="cnt">9</span></button>
+          <button class="dd-btn" onclick="ddGo('troyandy')">🌹 Троянди <span class="cnt">14</span></button>
           <button class="dd-btn" onclick="ddGo('khrizantema')">🌸 Хризантема <span class="cnt">8</span></button>
           <button class="dd-btn" onclick="ddGo('tulpany')">🌷 Тюльпани <span class="cnt">5</span></button>
           <button class="dd-btn" onclick="ddGo('topery')">✨ Топери <span class="cnt">10</span></button>
@@ -488,7 +488,7 @@ var CATS = [
   {id:'korobky',     lbl:'Коробки та кошики', dir:'Коробки сумочки та корзини', p:'8',  n:10},
   {id:'listivky',    lbl:'Листівки',          dir:'Листівки',                   p:'9',  n:27},
   {id:'sumochky',    lbl:'Сумочки квітів',    dir:'Сумочки квітів',             p:'10', n:4 },
-  {id:'troyandy',    lbl:'Троянди',           dir:'троянди',                    p:'1',  n:9 },
+  {id:'troyandy',    lbl:'Троянди',           dir:'троянди',                    p:'1',  n:14 },
   {id:'khrizantema', lbl:'Хризантема',        dir:'Хризантема',                 p:'2',  n:8 },
   {id:'tulpany',     lbl:'Тюльпани',          dir:'Тюльпани',                   p:'3',  n:5 },
   {id:'topery',      lbl:'Топери',            dir:'Топери',                     p:'7',  n:10}
@@ -508,7 +508,7 @@ function makeCard(name, src) {
 
 // Build all grids on page load
 window.addEventListener('DOMContentLoaded', function() {
-  // Bouquets: images/images1/1.jpg ... 28.jpg
+  // Bouquets: images/images1/1.jpg ... 31.jpg
   var bq = document.getElementById('pgBouquets');
   if (bq) {
     var h = '';
