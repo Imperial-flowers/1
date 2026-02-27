@@ -107,7 +107,7 @@ body { font-family:'Montserrat',sans-serif; background:var(--bg); color:var(--te
 .contacts-inner h2 { font-family:'Playfair Display',serif; font-style:italic; font-size:36px; font-weight:400; margin-bottom:10px; }
 .contacts-inner > p { font-size:14px; color:var(--muted); margin-bottom:36px; line-height:1.7; }
 .cc { display:flex; flex-direction:column; gap:12px; }
-.cc-btn { display:flex; align-items:center; gap:14px; padding:18px 22px; background:var(--bg); border:1px solid var(--border); border-radius:16px; cursor:pointer; color:var(--text); font-family:'Montserrat',sans-serif; font-size:14px; font-weight:500; transition:.2s; text-align:left; }
+.cc-btn { display:flex; align-items:center; gap:14px; padding:18px 22px; background:var(--bg); border:1px solid var(--border); border-radius:16px; cursor:pointer; color:var(--text); font-family:'Montserrat',sans-serif; font-size:14px; font-weight:500; transition:.2s; text-align:left; text-decoration:none; }
 .cc-btn:hover { background:var(--accent-light); border-color:var(--accent); transform:translateX(4px); }
 .cc-ico { font-size:22px; flex-shrink:0; }
 
@@ -355,8 +355,8 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
     <div class="cc">
       <button class="cc-btn" onclick="send('telegram','Вітаю! Хочу дізнатися більше про ваші квіти та подарунки 🌸')"><span class="cc-ico">✈️</span> Telegram: @olhapalanich</button>
       <button class="cc-btn" onclick="send('whatsapp','Вітаю! Хочу дізнатися більше про ваші квіти та подарунки 🌸')"><span class="cc-ico">💬</span> WhatsApp: +380970938241</button>
-      <button class="cc-btn" onclick="send('viber','Вітаю! Хочу дізнатися більше про ваші квіти та подарунки 🌸')"><span class="cc-ico">📱</span> Viber: +380970938241</button>
-      <button class="cc-btn" onclick="send('instagram','')"><span class="cc-ico">📸</span> Instagram: @kvi_tka24</button>
+      <a class="cc-btn" href="viber://chat?number=%2B380970938241"><span class="cc-ico">📱</span> Viber: +380970938241</a>
+      <a class="cc-btn" href="https://www.instagram.com/kvi_tka24/" target="_blank" rel="noopener"><span class="cc-ico">📸</span> Instagram: @kvi_tka24</a>
     </div>
   </div>
 </section>
@@ -389,6 +389,7 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
         <button class="ms-btn" data-m="viber" onclick="msSelect(this,'viber')">📱 Viber</button>
         <button class="ms-btn" data-m="instagram" onclick="msSelect(this,'instagram')">📸 Instagram</button>
       </div>
+      <p style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5">⚠️ Viber та Instagram на iPhone можуть не спрацювати — рекомендуємо Telegram або WhatsApp</p>
       <button class="order-btn" onclick="cartSend()">Оформити замовлення 🌸</button>
     </div>
   </div>
@@ -422,6 +423,7 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
         <button class="ms-btn" data-bm="viber" onclick="bldMsSelect(this,'viber')">📱 Viber</button>
         <button class="ms-btn" data-bm="instagram" onclick="bldMsSelect(this,'instagram')">📸 Instagram</button>
       </div>
+      <p style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5">⚠️ Viber та Instagram на iPhone можуть не спрацювати — рекомендуємо Telegram або WhatsApp</p>
       <button class="order-btn" onclick="bldSend()">Надіслати замовлення 🌸</button>
     </div>
   </div>
@@ -435,9 +437,10 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
     <div class="modal-btns">
       <button class="modal-btn" onclick="modalSend('telegram')"><span class="mi">✈️</span> Telegram</button>
       <button class="modal-btn" onclick="modalSend('whatsapp')"><span class="mi">💬</span> WhatsApp</button>
-      <button class="modal-btn" onclick="modalSend('viber')"><span class="mi">📱</span> Viber</button>
-      <button class="modal-btn" onclick="modalSend('instagram')"><span class="mi">📸</span> Instagram</button>
+      <button class="modal-btn" onclick="modalSend('viber')"><span class="mi">📱</span> Viber <span style="font-size:10px;color:var(--muted);margin-left:4px">⚠️ iOS</span></button>
+      <button class="modal-btn" onclick="modalSend('instagram')"><span class="mi">📸</span> Instagram <span style="font-size:10px;color:var(--muted);margin-left:4px">⚠️ iOS</span></button>
     </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:12px;line-height:1.5;text-align:center">⚠️ Viber та Instagram на iPhone можуть не спрацювати — рекомендуємо Telegram або WhatsApp</p>
     <button class="modal-cancel" onclick="modalClose()">Скасувати</button>
   </div>
 </div>
