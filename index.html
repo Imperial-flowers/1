@@ -190,6 +190,19 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
 .modal-cancel:hover { background:var(--border); }
 
 /* toast */
+/* Instagram warning popup */
+.ig-warn-bg { display:none; position:fixed; inset:0; z-index:3000; background:rgba(44,36,32,.45); backdrop-filter:blur(4px); align-items:center; justify-content:center; padding:20px; }
+.ig-warn-bg.on { display:flex; }
+.ig-warn { background:white; border-radius:24px; padding:32px; width:100%; max-width:380px; box-shadow:0 30px 80px rgba(44,36,32,.2); text-align:center; }
+.ig-warn-ico { font-size:48px; margin-bottom:16px; display:block; }
+.ig-warn h3 { font-family:'Playfair Display',serif; font-style:italic; font-size:22px; font-weight:400; margin-bottom:12px; }
+.ig-warn p { font-size:13px; color:var(--muted); line-height:1.7; margin-bottom:24px; }
+.ig-warn p b { color:var(--text); }
+.ig-warn-open { width:100%; padding:14px; border-radius:14px; background:var(--dark); border:none; color:white; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:.25s; margin-bottom:10px; }
+.ig-warn-open:hover { background:var(--accent); }
+.ig-warn-cancel { width:100%; padding:12px; border-radius:12px; border:1.5px solid var(--border); background:none; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:600; cursor:pointer; color:var(--muted); transition:.2s; }
+.ig-warn-cancel:hover { background:var(--border); }
+
 .toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--dark); color:white; padding:16px 24px; border-radius:16px; font-family:'Montserrat',sans-serif; font-size:13px; font-weight:500; z-index:9999; box-shadow:0 10px 40px rgba(0,0,0,.3); text-align:center; line-height:1.6; max-width:320px; opacity:0; transition:all .3s ease; pointer-events:none; }
 .toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
 
@@ -426,6 +439,18 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
       <button class="modal-btn" onclick="modalSend('instagram')"><span class="mi">📸</span> Instagram</button>
     </div>
     <button class="modal-cancel" onclick="modalClose()">Скасувати</button>
+  </div>
+</div>
+
+
+<!-- INSTAGRAM WARNING -->
+<div class="ig-warn-bg" id="igWarn">
+  <div class="ig-warn">
+    <span class="ig-warn-ico">📋</span>
+    <h3>Повідомлення скопійовано!</h3>
+    <p>Текст вашого замовлення вже в буфері обміну.<br>Натисніть кнопку нижче — відкриється <b>Instagram Direct</b>.<br>Там утримайте поле вводу та оберіть <b>«Вставити»</b>.</p>
+    <button class="ig-warn-open" onclick="igOpen()">Відкрити Instagram →</button>
+    <button class="ig-warn-cancel" onclick="igWarnClose()">Скасувати</button>
   </div>
 </div>
 
@@ -690,18 +715,9 @@ function modalSend(platform) {
 
         } else if (platform === 'instagram') {
             if (msg) copyText(msg);
-            showToast('📋 <b>Повідомлення скопійовано!</b><br><small>Відкриваємо Instagram — вставте текст у Direct</small>');
-
-            // Ссылка через ig.me лучше открывает приложение на iOS
-            var igUrl = 'https://ig.me/m/kvi_tka24';
-
-            setTimeout(function () {
-                if (isMobile) {
-                    window.location.href = igUrl;
-                } else {
-                    window.open(igUrl, '_blank');
-                }
-            }, 1200);
+            // Show warning popup — user must click button to open Instagram
+            // This is the ONLY iOS-safe way: open must happen directly in click handler
+            showIgWarning();
             return;
         }
 
@@ -832,6 +848,28 @@ function bldSend() {
   send(bldMs, msg);
   sbClose();
 }
+
+// Instagram warning popup
+function showIgWarning() {
+  document.getElementById('igWarn').classList.add('on');
+}
+
+function igWarnClose() {
+  document.getElementById('igWarn').classList.remove('on');
+}
+
+function igOpen() {
+  igWarnClose();
+  // Direct click — iOS safe
+  var a = document.createElement('a');
+  a.href = 'https://ig.me/m/kvi_tka24';
+  a.target = '_blank';
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
 </script>
 </body>
 </html>
