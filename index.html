@@ -443,14 +443,16 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
 </div>
 
 
-<!-- INSTAGRAM WARNING -->
-<div class="ig-warn-bg" id="igWarn">
+<!-- APP WARNING POPUP (Viber / Instagram) -->
+<div class="ig-warn-bg" id="appWarn">
   <div class="ig-warn">
-    <span class="ig-warn-ico">📋</span>
+    <span class="ig-warn-ico" id="appWarnIco">📱</span>
     <h3>Повідомлення скопійовано!</h3>
-    <p>Текст вашого замовлення вже в буфері обміну.<br>Натисніть кнопку нижче — відкриється <b>Instagram Direct</b>.<br>Там утримайте поле вводу та оберіть <b>«Вставити»</b>.</p>
-    <button class="ig-warn-open" onclick="igOpen()">Відкрити Instagram →</button>
-    <button class="ig-warn-cancel" onclick="igWarnClose()">Скасувати</button>
+    <p>Текст замовлення вже в буфері обміну.<br>
+    Натисніть кнопку — відкриється <b id="appWarnApp">застосунок</b>.<br>
+    Там утримайте поле вводу та оберіть <b>«Вставити»</b>.</p>
+    <button class="ig-warn-open" onclick="appWarnOpen()">Відкрити <span id="appWarnApp2">застосунок</span> →</button>
+    <button class="ig-warn-cancel" onclick="appWarnClose()">Скасувати</button>
   </div>
 </div>
 
@@ -707,17 +709,12 @@ function modalSend(platform) {
 
         } else if (platform === 'viber') {
             copyText(msg);
-            showToast('📋 <b>Повідомлення скопійовано!</b><br><small>Відкриваємо Viber — вставте текст у поле чату</small>');
-            setTimeout(function () {
-                window.location.href = 'viber://chat?number=%2B380970938241';
-            }, 1200);
+            showAppWarning('viber');
             return;
 
         } else if (platform === 'instagram') {
             if (msg) copyText(msg);
-            // Show warning popup — user must click button to open Instagram
-            // This is the ONLY iOS-safe way: open must happen directly in click handler
-            showIgWarning();
+            showAppWarning('instagram');
             return;
         }
 
@@ -849,20 +846,31 @@ function bldSend() {
   sbClose();
 }
 
-// Instagram warning popup
-function showIgWarning() {
-  document.getElementById('igWarn').classList.add('on');
+// App warning popup (Viber / Instagram) — iOS safe
+var appWarnTarget = '';
+
+function showAppWarning(app) {
+  appWarnTarget = app;
+  var isIg = (app === 'instagram');
+  document.getElementById('appWarnIco').textContent  = isIg ? '📸' : '📱';
+  document.getElementById('appWarnApp').textContent  = isIg ? 'Instagram Direct' : 'Viber';
+  document.getElementById('appWarnApp2').textContent = isIg ? 'Instagram Direct' : 'Viber';
+  document.getElementById('appWarn').classList.add('on');
 }
 
-function igWarnClose() {
-  document.getElementById('igWarn').classList.remove('on');
+function appWarnClose() {
+  document.getElementById('appWarn').classList.remove('on');
+  appWarnTarget = '';
 }
 
-function igOpen() {
-  igWarnClose();
-  // Direct click — iOS safe
+function appWarnOpen() {
+  var url = appWarnTarget === 'instagram'
+    ? 'https://ig.me/m/kvi_tka24'
+    : 'viber://chat?number=%2B380970938241';
+  appWarnClose();
+  // Synchronous link click — the ONLY iOS-safe way to open external apps
   var a = document.createElement('a');
-  a.href = 'https://ig.me/m/kvi_tka24';
+  a.href = url;
   a.target = '_blank';
   a.rel = 'noopener';
   document.body.appendChild(a);
