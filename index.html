@@ -281,7 +281,7 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
           Каталог <span class="dd-arrow">▾</span>
         </button>
         <div class="dd-menu" id="ddMenu">
-          <button class="dd-btn all" onclick="ddGo('bouquets')">💐 Букети <span class="cnt">31</span></button>
+          <button class="dd-btn all" onclick="ddGo('bouquets')">💐 Букети <span class="cnt">35</span></button>
           <div class="dd-sep"></div>
           <button class="dd-btn" onclick="ddGo('troyandy')">🌹 Троянди <span class="cnt">20</span></button>
           <button class="dd-btn" onclick="ddGo('khrizantema')">🌸 Хризантема <span class="cnt">8</span></button>
@@ -586,11 +586,11 @@ function makeCard(name, src) {
 
 // Build all grids on page load
 window.addEventListener('DOMContentLoaded', function() {
-  // Bouquets: images/images1/1.jpg ... 31.jpg
+  // Bouquets: images/images1/1.jpg ... 35.jpg
   var bq = document.getElementById('pgBouquets');
   if (bq) {
     var h = '';
-    for (var i = 1; i <= 31; i++) {
+    for (var i = 1; i <= 35; i++) {
       h += makeCard('Букет #' + i, 'images/images1/' + i + '.jpg');
     }
     bq.innerHTML = h;
