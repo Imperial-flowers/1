@@ -281,11 +281,11 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
           Каталог <span class="dd-arrow">▾</span>
         </button>
         <div class="dd-menu" id="ddMenu">
-          <button class="dd-btn all" onclick="ddGo('bouquets')">💐 Букети <span class="cnt">35</span></button>
+          <button class="dd-btn all" onclick="ddGo('bouquets')">💐 Букети <span class="cnt">37</span></button>
           <div class="dd-sep"></div>
           <button class="dd-btn" onclick="ddGo('troyandy')">🌹 Троянди <span class="cnt">20</span></button>
           <button class="dd-btn" onclick="ddGo('khrizantema')">🌸 Хризантема <span class="cnt">8</span></button>
-          <button class="dd-btn" onclick="ddGo('tulpany')">🌷 Тюльпани <span class="cnt">12</span></button>
+          <button class="dd-btn" onclick="ddGo('tulpany')">🌷 Тюльпани <span class="cnt">19</span></button>
           <button class="dd-btn" onclick="ddGo('irys')">💜 Ірис <span class="cnt">1</span></button>
           <button class="dd-btn" onclick="ddGo('gerbera')">🌼 Гербера <span class="cnt">1</span></button>
           <button class="dd-btn" onclick="ddGo('matiola')">🌺 Матіола <span class="cnt">1</span></button>
@@ -368,7 +368,7 @@ footer { background:var(--dark); color:rgba(255,255,255,.5); text-align:center; 
         <div class="acc-body"><div class="pg" id="pg-khrizantema"></div></div>
       </div>
       <div class="acc-block" id="acc-tulpany">
-        <button class="acc-head" onclick="accToggle('tulpany')"><span class="acc-ico">🌷</span><span class="acc-lbl">Тюльпани</span><span class="acc-num">12</span><span class="acc-arr">▾</span></button>
+        <button class="acc-head" onclick="accToggle('tulpany')"><span class="acc-ico">🌷</span><span class="acc-lbl">Тюльпани</span><span class="acc-num">19</span><span class="acc-arr">▾</span></button>
         <div class="acc-body"><div class="pg" id="pg-tulpany"></div></div>
       </div>
       <div class="acc-block" id="acc-irys">
@@ -561,7 +561,7 @@ var CATS = [
   {id:'sumochky',    lbl:'Сумочки квітів',    dir:'Сумочки квітів',             p:'10', n:4 },
   {id:'troyandy',    lbl:'Троянди',           dir:'троянди',                    p:'1',  n:20 },
   {id:'khrizantema', lbl:'Хризантема',        dir:'Хризантема',                 p:'2',  n:8 },
-  {id:'tulpany',     lbl:'Тюльпани',          dir:'Тюльпани',                   p:'3',  n:12 },
+  {id:'tulpany',     lbl:'Тюльпани',          dir:'Тюльпани',                   p:'3',  n:19 },
   {id:'irys',        lbl:'Ірис',              dir:'Ірис',                      p:'11', n:1 },
   {id:'gerbera',     lbl:'Гербера',            dir:'Гербера',                   p:'12', n:1 },
   {id:'matiola',     lbl:'Матіола',            dir:'Матіола',                   p:'13', n:1 },
@@ -586,11 +586,11 @@ function makeCard(name, src) {
 
 // Build all grids on page load
 window.addEventListener('DOMContentLoaded', function() {
-  // Bouquets: images/images1/1.jpg ... 35.jpg
+  // Bouquets: images/images1/1.jpg ... 37.jpg
   var bq = document.getElementById('pgBouquets');
   if (bq) {
     var h = '';
-    for (var i = 1; i <= 35; i++) {
+    for (var i = 1; i <= 37; i++) {
       h += makeCard('Букет #' + i, 'images/images1/' + i + '.jpg');
     }
     bq.innerHTML = h;
